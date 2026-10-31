@@ -1,6 +1,18 @@
 # Deliver Kaizōsha’s InterfaceKit to TestFlight
 
-The current display name is **Kaizōsha’s InterfaceKit**. The shipping identity remains `org.kaizosha.CustomKit`, company team `564DV375U4`, App Store Connect app `6827106597`. The current source prepares version 1.0 build 5. Build 4 is the latest recorded delivery below.
+The current display name is **Kaizōsha’s InterfaceKit**. The shipping identity remains `org.kaizosha.CustomKit`, company team `564DV375U4`, App Store Connect app `6827106597`. Version 1.0 build 5 uploaded successfully on October 31, 2026, and Apple reported that the package is processing. Build 4 remains the latest confirmed Testing assignment. The App Store Connect listing rename and build 5 tester-group verification await Apple sign-in in the Codex browser.
+
+## Build 5 upload receipt
+
+- Package release: `0.4.0`, source `c704f572d76c6d441e93a9f8279ca996721acee7`.
+- Archive: `/tmp/InterfaceKit-Cleanup/KaizoshaInterfaceKit-1.0-5-final.xcarchive`.
+- Archived executable SHA256: `f1c2709c7576c2582ed8fa0507da952755b551fd624a0070c2ecf543a21781fd`.
+- Upload log: `/tmp/InterfaceKit-Cleanup-upload.log`.
+- Xcode reported **Upload succeeded** and **EXPORT SUCCEEDED**, with **Uploaded package is processing**.
+- The app bundle uses the exact display name Kaizōsha’s InterfaceKit and the compiled Icon Composer asset. The existing App Store Connect listing has not yet been renamed in this pass.
+- Distribution uses the existing Xcode account and TestFlight Internal Only. Processing completion, build ID, and assignment to Kon's Testing are not yet verified.
+
+The Codex browser remains on Apple's sign-in page. Its input controls reject automation, including in a fresh tab, so saved-login use could not be completed there. Do not treat this upload receipt as confirmation that testers can install build 5.
 
 ## Create the archive
 
