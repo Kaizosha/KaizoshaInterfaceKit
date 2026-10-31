@@ -4,7 +4,7 @@ Run `Scripts/verify.sh SIMULATOR_ID` with Xcode 27 selected. The script regenera
 
 The current package checks cover public imports, logo motion and drag policies, haptic travel, native segmented selection, credits text, liquid-list geometry, and masonry geometry. Gallery checks cover the seven-item catalog, individual customization sheets, selection, reset, and usage code.
 
-The cleanup changes public type names and replaces the former app-specific selectors. Earlier test results below describe those earlier revisions. Validate the current source before assigning a new TestFlight build.
+The cleanup changes public type names and replaces the former app-specific selectors. The current evidence and historical receipts below identify which source and checks they cover.
 
 UI tests retain screenshots in their result bundle. Export them with:
 
@@ -15,6 +15,22 @@ xcrun xcresulttool export attachments \
 ```
 
 Inspect the component screens and customization sheets in Light and Dark appearances. Check the segmented-control presets, more than two pill options, long labels, liquid-list selection and contained toggles, and accessibility text sizes. Confirm the archived app contains the Icon Composer asset output.
+
+## Build 5 cleanup evidence
+
+The package passed all 39 checks on iOS 26, including ordinary public imports, typed selection callbacks, native appearance attributes, and adaptive list geometry. Result: `/tmp/InterfaceKit-Cleanup/package-final.xcresult`.
+
+The six component interaction checks passed on iPhone iOS 27: all seven customization/reset/code paths, exact credits, native payment/language widths, extra editable pill options, liquid selection/toggle/availability, and masonry geometry. Screenshots are exported under `/tmp/InterfaceKit-Cleanup/phone-verified-screens`. That broad result bundle also contains the earlier immediate menu-state assertion failure and an interrupted continuation; it is not an all-green suite receipt.
+
+The final three iPhone button/menu availability checks passed with zero failures in `/tmp/InterfaceKit-Cleanup/phone-glass-verified.xcresult`. They wait at most three seconds for native availability after dismissing a sheet, then perform actual taps and check that disabled controls cannot change the activation count. Regular and prominent menus both retain working commands when enabled.
+
+Dark iPad at accessibility XXXL passed all four new selector/list/layout checks and the regular menu and repeated-button checks in `/tmp/InterfaceKit-Cleanup/ipad-repair.xcresult`. Its initial immediate prominent-menu assertion failed; the unchanged production control passed the bounded-wait and actual-tap check in `/tmp/InterfaceKit-Cleanup/ipad-prominent-diagnostic.xcresult`. Screenshots are exported under `/tmp/InterfaceKit-Cleanup/ipad-screens`.
+
+All seven normal screens and customization sheets, the credits presentation, and the iPad accessibility examples were visually reviewed. The layered icon was reviewed in Icon Composer in Default, Dark, and Mono appearances. Xcode compiled its `.icon` source and fallback icon images.
+
+The finalized signed archive is `/tmp/InterfaceKit-Cleanup/KaizoshaInterfaceKit-1.0-5-final.xcarchive`. Strict signature verification passed; metadata reports Kaizōsha’s InterfaceKit 1.0 (5), iOS 26 minimum, both device families, and the compiled InterfaceKit icon. Executable SHA256: `f1c2709c7576c2582ed8fa0507da952755b551fd624a0070c2ecf543a21781fd`.
+
+REA 6.8.0 inspected that exact archive. Reports under `/tmp/InterfaceKit-Cleanup/rea-final` confirm all 14 expected renamed declarations. System-library resolution and generic/resilient Swift dispatch decoding remain partial; this does not establish runtime behavior. Xcode's separate simulator diagnostic collector still reports that it cannot locate `simctl`; passing test results above do not establish clean diagnostic collection.
 
 ## Historical build 4 evidence
 

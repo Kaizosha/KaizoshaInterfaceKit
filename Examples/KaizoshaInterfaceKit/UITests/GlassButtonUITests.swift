@@ -165,9 +165,11 @@ final class GlassButtonUITests: XCTestCase {
     }
 
     private func assertDisabledCannotActivate(expected: Int, file: StaticString = #filePath, line: UInt = #line) {
-        XCTAssertFalse(element.isEnabled, file: file, line: line)
+        let disabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == false"), object: element)
+        let disabledResult = XCTWaiter.wait(for: [disabled], timeout: 3)
         element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         assertActivations(expected, file: file, line: line)
+        XCTAssertEqual(disabledResult, .completed, "The control should expose its disabled state", file: file, line: line)
     }
 
     private func reveal(_ element: XCUIElement) {
