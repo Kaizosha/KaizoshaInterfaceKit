@@ -59,6 +59,7 @@ test_paths = sorted((EXAMPLE / "UITests").rglob("*.swift"))
 resource_types = {
     ".xcassets": "folder.assetcatalog",
     ".xcprivacy": "text.xml",
+    ".icon": "folder.icon",
 }
 resources = sorted(path for path in (EXAMPLE / "Resources").iterdir() if path.suffix in resource_types)
 app_sources = phase("app-sources", "PBXSourcesBuildPhase", source_paths, "sourcecode.swift")
@@ -100,17 +101,17 @@ app_settings = dict(
     PRODUCT_NAME="KaizoshaInterfaceKit",
     PRODUCT_MODULE_NAME="KaizoshaInterfaceKitApp",
     PRODUCT_BUNDLE_IDENTIFIER="org.kaizosha.CustomKit",
-    INFOPLIST_KEY_CFBundleDisplayName=quoted("KaizoshaInterfaceKit"),
-    INFOPLIST_KEY_NSMotionUsageDescription=quoted("KaizoshaInterfaceKit uses device motion to move light across the Kaizōsha logo."),
+    INFOPLIST_KEY_CFBundleDisplayName=quoted("Kaizōsha’s InterfaceKit"),
+    INFOPLIST_KEY_NSMotionUsageDescription=quoted("Kaizōsha’s InterfaceKit uses device motion to move light across the Kaizōsha logo."),
     INFOPLIST_KEY_UILaunchScreen_Generation="YES",
     INFOPLIST_KEY_UIApplicationSceneManifest_Generation="YES",
     INFOPLIST_KEY_ITSAppUsesNonExemptEncryption="NO",
     INFOPLIST_KEY_LSApplicationCategoryType=quoted("public.app-category.developer-tools"),
-    CURRENT_PROJECT_VERSION="4",
+    CURRENT_PROJECT_VERSION="5",
     MARKETING_VERSION="1.0",
     ENABLE_PREVIEWS="YES",
     SKIP_INSTALL="NO",
-    ASSETCATALOG_COMPILER_APPICON_NAME="AppIcon",
+    ASSETCATALOG_COMPILER_APPICON_NAME="InterfaceKit",
     INFOPLIST_KEY_UISupportedInterfaceOrientations=quoted("UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"),
 )
 app_configs = config_list("app", app_settings)

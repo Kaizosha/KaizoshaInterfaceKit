@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct LogoConfiguration {
+public struct KaizoshaLogoConfiguration {
     public var size: CGFloat
     public var interactive: Bool
     public var hapticsEnabled: Bool

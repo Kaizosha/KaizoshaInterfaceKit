@@ -1,7 +1,7 @@
 import KaizoshaInterfaceKit
 import SwiftUI
 
-struct MasonryExample: View {
+struct MasonryGridExample: View {
     @State private var minimumWidth: CGFloat = 148
     @State private var horizontalInset: CGFloat = 20
     @State private var columnSpacing: CGFloat = 16
@@ -11,7 +11,7 @@ struct MasonryExample: View {
     @State private var rightToLeft = false
 
     var body: some View {
-        ComponentPage(title: "Masonry Layout", fillsCanvas: true, code: code, reset: {
+        ComponentPage(title: "Masonry Grid", fillsCanvas: true, code: code, reset: {
             minimumWidth = 148; horizontalInset = 20; columnSpacing = 16; rowSpacing = 16
             count = 18; automaticWidth = true; rightToLeft = false
         }) {
@@ -49,23 +49,41 @@ struct MasonryExample: View {
     }
 
     private let ratios: [CGFloat] = [0.72, 1.3, 0.9, 1.6, 0.62, 1.1, 0.8]
-    private let code = """
-    import KaizoshaInterfaceKit
+    private var code: String {
+        let columnWidth = automaticWidth ? "nil" : String(Double(minimumWidth))
+        let ratioValues = ratios.map { String(Double($0)) }.joined(separator: ", ")
+        return #"""
+        import KaizoshaInterfaceKit
+        import SwiftUI
 
-    ScrollView {
-        MasonryGrid {
-            ForEach(items) { item in
-                Image(uiImage: item.thumbnail)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(6)
+        struct MasonryGridPreview: View {
+            private let ratios: [CGFloat] = [\#(ratioValues)]
+
+            var body: some View {
+                ScrollView {
+                    MasonryGrid(
+                        minimumColumnWidth: \#(columnWidth),
+                        horizontalInset: \#(Double(horizontalInset)),
+                        columnSpacing: \#(Double(columnSpacing)),
+                        rowSpacing: \#(Double(rowSpacing))
+                    ) {
+                        ForEach(0..<\#(count), id: \.self) { index in
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.primary.opacity(0.045 + Double(index % 4) * 0.035))
+                                .aspectRatio(ratios[index % ratios.count], contentMode: .fit)
+                                .overlay {
+                                    Text(String(format: "%02d", index + 1))
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding(6)
+                                .accessibilityLabel("Tile \(index + 1)")
+                        }
+                    }
+                    .environment(\.layoutDirection, \#(rightToLeft ? ".rightToLeft" : ".leftToRight"))
+                }
             }
         }
+        """#
     }
-
-    // Or use MasonryLayout directly with your own sizing.
-    MasonryLayout(minimumColumnWidth: 148) {
-        // Your views.
-    }
-    """
 }

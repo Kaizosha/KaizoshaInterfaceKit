@@ -3,7 +3,7 @@ import SwiftUI
 /// The canonical Kaizōsha mark, with Together's direct drag, device lighting,
 /// release-velocity spring, and accumulated-travel haptics.
 public struct KaizoshaLogo: View {
-    public var configuration: LogoConfiguration
+    public var configuration: KaizoshaLogoConfiguration
     private let onOpenCredits: (() -> Void)?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -17,7 +17,7 @@ public struct KaizoshaLogo: View {
     @State private var isVisible = false
 
     public init(
-        configuration: LogoConfiguration = .init(),
+        configuration: KaizoshaLogoConfiguration = .init(),
         onOpenCredits: (() -> Void)? = nil
     ) {
         self.configuration = configuration

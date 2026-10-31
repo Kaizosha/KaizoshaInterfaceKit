@@ -1,38 +1,43 @@
-# KaizoshaInterfaceKit design
+# Kaizōsha’s InterfaceKit design
 
-The package exports one library, `KaizoshaInterfaceKit`. Components live in `Sources/KaizoshaInterfaceKit`. The private example app lives in `Examples/KaizoshaInterfaceKit`. It presents one ordered list and one element per destination.
+The package exports one library, `KaizoshaInterfaceKit`. Components live in `Sources/KaizoshaInterfaceKit`. The private example app lives in `Examples/KaizoshaInterfaceKit`.
 
-The catalog contains eight components in order. The former catalog and media integrations were removed. Git history preserves earlier work. Public components are grouped into Branding, Sheets, Controls, and Layouts. The gallery has no exported product.
+The catalog contains seven component families in order: Kaizōsha Logo, Credits Sheet, Segmented Control, Option Pill, Liquid List, Masonry Grid, and Glass Button. Each destination shows its element and a navigation-bar customization button. Controls, reset, and usage code live in the customization sheet.
 
-The native glass renderer is package-owned. Together delegates its toolbar,
-animated action, subscription feature, and transcript menu surfaces to the same
-public configuration/modifier. Its semantic colors, symbol animation roles,
-workflow actions, and availability stay in Together. A dedicated Button wrapper
-is deliberately absent so native Button and Menu constructors remain available.
-
-## Together source
-
-The canonical sources are in the sibling Together repository:
-
-- `Together/Features/Video/Captions/Controls/ControlsKaizoshaLogo.swift` owns direct drag and release behavior.
-- `Together/Shared/UI/KaizoshaLogoArtwork.swift` owns the three pillars and 改造社 geometry.
-- `KaizoshaGlassMark.swift` and `KaizoshaLogo.metal` own the resting and drag-driven finish.
-- `KaizoshaLogoInteraction.swift` and `KaizoshaLogoInteractionPolicy.swift` own elastic response and release velocity.
-- `KaizoshaLogoLighting.swift` owns bounded gravity samples, orientation mapping, and lifecycle.
-- `KaizoshaLogoHaptics.swift` owns accumulated finger travel and view-attached native generators.
-
-The extraction adds typed configuration and package resource lookup through `ShaderLibrary.bundle(.module)`. It starts motion with view appearance instead of depending on Together's scroll-visibility callback. Launch-sheet travel and singularity behavior are outside this component. Credits navigation is supplied by the consuming app rather than importing Together feature state.
-
-Motion and haptic owners retain Together's explicit synchronous destructors. The visible component owns explicit stop and invalidation.
+Public components are grouped into Branding, Sheets, Controls, Lists, and Layouts. The gallery has no exported product. Its individual screens are in `Sources/Components`; shared customization and code helpers are in `Sources/Support`. Earlier experiments remain in Git history.
 
 ## Shipping identity
 
-The display name and source module are KaizoshaInterfaceKit. The shipping bundle identifier remains `org.kaizosha.CustomKit` so existing TestFlight installations receive the renamed app as an update.
+The display name is **Kaizōsha’s InterfaceKit**. The package, product, module, project, and main folder use `KaizoshaInterfaceKit` so Swift imports and paths use an ASCII identifier.
 
-## Controls and layouts
+The shipping bundle identifier remains `org.kaizosha.CustomKit` so existing TestFlight installations receive updates through the same app record.
 
-The credits sheet comes from `TogetherCreditsSheet.swift`, retaining its exact default copy and justified UIKit text renderer. The unlock action comes from `TogetherSubscriptionHomeControl.swift` and `TogetherSegmentedControl.swift`. The strategy pill and native selector come from `TranslationStrategyBottomControl.swift` and `AppleIntelligenceTranslationSupport.swift`. Source and Translate come from `VideoLanguageSelectionSheet.swift`. Masonry geometry follows `VideoHomeGeometry.swift`, `VideoImportGridMetrics.swift`, and `ImportVideoCardGeometry.swift`.
+## Canonical app components
 
-The extraction keeps host state at the public boundary. Purchase state, translation engines, hardware checks, and playback sessions remain with consuming apps. The standalone Low/High selector uses readable label-colored text; its on-glass preset retains Together's on-accent foreground.
+The logo comes from Together's `ControlsKaizoshaLogo.swift` and shared `KaizoshaLogo` helpers. Those files own the canonical three pillars and 改造社 geometry, Metal finish, elastic response, motion lifecycle, and haptic travel.
 
-A private `ComponentPage` owns the navigation customization button and native sheet. It reserves visible space above a medium sheet for the live component. Masonry uses a scrollable canvas. No gallery narrative or configuration controls appear on the component canvas.
+The extraction adds typed configuration and package resource lookup through `ShaderLibrary.bundle(.module)`. Motion starts with view appearance. The consuming app supplies credits navigation.
+
+`CreditsSheet` comes from Together's `TogetherCreditsSheet.swift`, retaining its exact default copy and justified UIKit text renderer. The consuming app can replace the title, paragraphs, or logo settings.
+
+## Generic controls
+
+`SegmentedControl` comes from `TogetherSubscriptionPlanPicker` in Together's `TogetherSubscriptionStoreControls.swift`. It preserves the Annual/Monthly payment picker's native equal-width segments, minimum height, scaled semibold text, and untinted native selection default. The extraction replaces StoreKit products with caller-owned IDs and titles.
+
+Payment, Language, and Options are presets in one gallery page. Width, height, text size, title colors, and selection tint belong to the same component. Separate app-domain selectors would duplicate the same native control.
+
+`OptionPill` retains the glass capsule treatment for generic choices. Each item owns its title and colors. The caller owns the item count and selection. One-line labels truncate at the tail, while accessibility labels retain the complete title. Translation explanations and availability policy belong in the consuming app.
+
+`LiquidList` and `LiquidListRow` follow Together and TL-Pinch's shared list treatment: regular glass, a subtle selected wash, capsule rows, and rounded rectangles at accessibility text sizes. The caller supplies actions, navigation, or contained controls.
+
+Masonry geometry follows Together's `VideoHomeGeometry.swift`, `VideoImportGridMetrics.swift`, and `ImportVideoCardGeometry.swift`. Media state and playback remain in the host.
+
+The glass-button modifier styles native Button and Menu controls. Together owns semantic colors, symbol effects, actions, and availability. A dedicated button wrapper would hide native constructors without adding behavior.
+
+## Example app and icon
+
+A private `ComponentPage` owns each customization button and native sheet. It reserves space above a medium sheet for the live component. Liquid List and Masonry Grid use a scrollable canvas. The gallery constructs its element and controls while the parent evaluates its body, so a newly presented sheet uses current state.
+
+The app icon is a layered Icon Composer document at `Examples/KaizoshaInterfaceKit/Resources/InterfaceKit.icon`. Its pillar and outlined wordmark SVG layers also live in `Design/AppIcon`. Xcode compiles the native `.icon` document as the app icon.
+
+Rebuild the editable vector artwork with `swift Design/AppIcon/GenerateArtwork.swift Design/AppIcon` on macOS. Import those two SVG layers into Icon Composer when changing the artwork. The native document stores a light material override for Dark appearance and automatic Mono rendering.

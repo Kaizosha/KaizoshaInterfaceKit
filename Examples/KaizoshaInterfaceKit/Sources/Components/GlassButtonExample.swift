@@ -1,7 +1,7 @@
 import KaizoshaInterfaceKit
 import SwiftUI
 
-struct NativeGlassButtonExample: View {
+struct GlassButtonExample: View {
     @State private var settings = GlassButtonSettings()
     @State private var activations = 0
     @State private var rotationTrigger = 0
@@ -9,27 +9,19 @@ struct NativeGlassButtonExample: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        ComponentPage(title: "Native Glass Button", code: Self.code(for: settings, in: environment), reset: {
+        ComponentPage(title: "Glass Button", code: Self.code(for: settings, in: environment), reset: {
             settings = .init()
             activations = 0
             rotationTrigger = 0
         }) {
-            VStack(spacing: 20) {
-                VStack {
-                    control
-                        .kaizoshaGlassButtonStyle(settings.configuration)
-                        .controlSize(settings.size.value)
-                        .disabled(!settings.enabled)
-                        .accessibilityIdentifier("glass.element")
-                }
-                .disabled(settings.ancestorDisabled)
-                Text("Activations: \(activations)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("Activations")
-                    .accessibilityValue(String(activations))
-                    .accessibilityIdentifier("glass.activations")
+            VStack {
+                control
+                    .kaizoshaGlassButtonStyle(settings.configuration)
+                    .controlSize(settings.size.value)
+                    .disabled(!settings.enabled)
+                    .accessibilityIdentifier("glass.element")
             }
+            .disabled(settings.ancestorDisabled)
         } controls: {
             Section("Example") {
                 Picker("Preset", selection: Binding(
@@ -51,8 +43,8 @@ struct NativeGlassButtonExample: View {
             }
             Section("Appearance") {
                 Picker("Surface", selection: $settings.surface) {
-                    Text("Regular").tag(NativeGlassButtonConfiguration.Surface.regular)
-                    Text("Prominent").tag(NativeGlassButtonConfiguration.Surface.prominent)
+                    Text("Regular").tag(GlassButtonConfiguration.Surface.regular)
+                    Text("Prominent").tag(GlassButtonConfiguration.Surface.prominent)
                 }
                 .accessibilityIdentifier("glass.surface")
                 ColorPicker("Tint", selection: $settings.tint)
@@ -176,7 +168,7 @@ enum GlassButtonSize: String, CaseIterable {
 
 struct GlassButtonSettings {
     var preset: GlassButtonPreset
-    var surface: NativeGlassButtonConfiguration.Surface = .prominent
+    var surface: GlassButtonConfiguration.Surface = .prominent
     var tint: Color = .accentColor
     var shape: GlassButtonShape = .capsule
     var size: GlassButtonSize = .regular
@@ -206,7 +198,7 @@ struct GlassButtonSettings {
         }
     }
 
-    var configuration: NativeGlassButtonConfiguration {
+    var configuration: GlassButtonConfiguration {
         .init(surface: surface, tint: tint, borderShape: shape.value)
     }
 }

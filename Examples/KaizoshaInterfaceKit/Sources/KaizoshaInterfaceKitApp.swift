@@ -6,25 +6,23 @@ struct KaizoshaInterfaceKitApp: App {
         WindowGroup {
             NavigationStack {
                 List {
-                    NavigationLink("Kaizosha Logo") { LogoExample() }
-                        .accessibilityIdentifier("catalog.kaizosha-logo")
-                    NavigationLink("Made by Kaizosha") { CreditsExample() }
-                        .accessibilityIdentifier("catalog.made-by-kaizosha")
-                    NavigationLink("Unlock Together") { UnlockTogetherExample() }
-                        .accessibilityIdentifier("catalog.unlock-together")
-                    NavigationLink("Translation Strategy Pill") { TranslationPillExample() }
-                        .accessibilityIdentifier("catalog.translation-pill")
-                    NavigationLink("Language Switcher") { LanguageExample() }
-                        .accessibilityIdentifier("catalog.language-switcher")
-                    NavigationLink("Low/High Switcher") { StrategySwitcherExample() }
-                        .accessibilityIdentifier("catalog.strategy-switcher")
-                    NavigationLink("Masonry Layout") { MasonryExample() }
-                        .accessibilityIdentifier("catalog.masonry-layout")
-                    NavigationLink("Native Glass Button") { NativeGlassButtonExample() }
-                        .accessibilityIdentifier("catalog.native-glass-button")
+                    NavigationLink("Kaizōsha Logo") { KaizoshaLogoExample() }
+                        .accessibilityIdentifier("catalog.logo")
+                    NavigationLink("Credits Sheet") { CreditsSheetExample() }
+                        .accessibilityIdentifier("catalog.credits-sheet")
+                    NavigationLink("Segmented Control") { SegmentedControlExample() }
+                        .accessibilityIdentifier("catalog.segmented-control")
+                    NavigationLink("Option Pill") { OptionPillExample() }
+                        .accessibilityIdentifier("catalog.option-pill")
+                    NavigationLink("Liquid List") { LiquidListExample() }
+                        .accessibilityIdentifier("catalog.liquid-list")
+                    NavigationLink("Masonry Grid") { MasonryGridExample() }
+                        .accessibilityIdentifier("catalog.masonry-grid")
+                    NavigationLink("Glass Button") { GlassButtonExample() }
+                        .accessibilityIdentifier("catalog.glass-button")
                 }
                 .listStyle(.plain)
-                .navigationTitle("KaizoshaInterfaceKit")
+                .navigationTitle("Kaizōsha’s InterfaceKit")
                 .navigationBarTitleDisplayMode(.inline)
             }
             .tint(.primary)

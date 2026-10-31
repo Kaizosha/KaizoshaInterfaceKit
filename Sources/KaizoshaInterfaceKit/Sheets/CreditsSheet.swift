@@ -1,13 +1,13 @@
 import SwiftUI
 import UIKit
 
-public struct MadeByKaizosha: View {
+public struct CreditsSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
-    private let configuration: CreditsConfiguration
+    private let configuration: CreditsSheetConfiguration
 
-    public init(configuration: CreditsConfiguration = .together) {
+    public init(configuration: CreditsSheetConfiguration = .together) {
         self.configuration = configuration
     }
 
@@ -34,7 +34,7 @@ public struct MadeByKaizosha: View {
 
                     VStack(spacing: 12) {
                         ForEach(configuration.paragraphs.indices, id: \.self) { index in
-                            JustifiedCreditText(markdown: configuration.paragraphs[index])
+                            JustifiedCreditsText(markdown: configuration.paragraphs[index])
                                 .accessibilityIdentifier(
                                     index == 0 ? "credits.purpose"
                                         : index == 1 ? "credits.build"

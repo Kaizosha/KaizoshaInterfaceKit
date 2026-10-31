@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Configures native glass while the consuming control owns its behavior.
-public struct NativeGlassButtonConfiguration {
+public struct GlassButtonConfiguration {
     /// Chooses the system's regular or prominent interactive glass surface.
     public enum Surface: Hashable, Sendable {
         case regular
@@ -34,7 +34,7 @@ extension View {
     /// the inherited disabled state.
     @ViewBuilder
     public func kaizoshaGlassButtonStyle(
-        _ configuration: NativeGlassButtonConfiguration = .init()
+        _ configuration: GlassButtonConfiguration = .init()
     ) -> some View {
         switch configuration.surface {
         case .regular:
@@ -42,7 +42,7 @@ extension View {
                 .buttonBorderShape(configuration.borderShape)
                 .tint(configuration.tint)
         case .prominent:
-            buttonStyle(NativeProminentGlassButtonStyle(
+            buttonStyle(ProminentGlassButtonStyle(
                 tint: configuration.tint,
                 borderShape: configuration.borderShape
             ))
@@ -51,7 +51,7 @@ extension View {
 }
 
 /// Adapts the native label and unavailable appearance without enabling interaction.
-private struct NativeProminentGlassButtonStyle: PrimitiveButtonStyle {
+private struct ProminentGlassButtonStyle: PrimitiveButtonStyle {
     let tint: Color
     let borderShape: ButtonBorderShape
 

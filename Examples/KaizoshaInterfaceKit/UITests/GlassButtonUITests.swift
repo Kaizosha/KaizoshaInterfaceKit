@@ -1,17 +1,18 @@
 import XCTest
 
 @MainActor
-final class NativeGlassButtonUITests: XCTestCase {
+final class GlassButtonUITests: XCTestCase {
     private var app: XCUIApplication!
 
     override func setUp() async throws {
         continueAfterFailure = false
         app = XCUIApplication()
         app.launch()
-        let destination = app.buttons["catalog.native-glass-button"]
+        let destination = app.buttons["catalog.glass-button"]
         reveal(destination)
         destination.tap()
         XCTAssertTrue(element.waitForExistence(timeout: 4))
+        XCTAssertFalse(app.descendants(matching: .any)["glass.customization-activations"].firstMatch.exists)
     }
 
     func testRepeatedActivationAndLocalAndAncestorDisabling() {
@@ -155,8 +156,12 @@ final class NativeGlassButtonUITests: XCTestCase {
     }
 
     private func assertActivations(_ count: Int, file: StaticString = #filePath, line: UInt = #line) {
-        let value = app.descendants(matching: .any)["glass.activations"].firstMatch
+        let alreadyCustomizing = app.navigationBars["Customize"].exists
+        if !alreadyCustomizing { app.buttons["component.customize"].tap() }
+        let value = app.descendants(matching: .any)["glass.customization-activations"].firstMatch
+        XCTAssertTrue(value.waitForExistence(timeout: 4), file: file, line: line)
         XCTAssertEqual(value.value as? String, String(count), file: file, line: line)
+        if !alreadyCustomizing { app.buttons["customize.done"].tap() }
     }
 
     private func assertDisabledCannotActivate(expected: Int, file: StaticString = #filePath, line: UInt = #line) {

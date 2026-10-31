@@ -1,10 +1,12 @@
 # Component reference
 
-## Kaizosha Logo
+All public components use `import KaizoshaInterfaceKit`. The example app owns its catalog, navigation, customization sheets, and usage-code view.
 
-Import `KaizoshaInterfaceKit` and instantiate `KaizoshaLogo(configuration:onOpenCredits:)`.
+## Kaizōsha Logo
 
-`LogoConfiguration` provides the following values:
+`KaizoshaLogo(configuration:onOpenCredits:)` renders the canonical Kaizōsha artwork.
+
+`KaizoshaLogoConfiguration` contains:
 
 | Value | Default | Behavior |
 | --- | --- | --- |
@@ -17,74 +19,98 @@ Import `KaizoshaInterfaceKit` and instantiate `KaizoshaLogo(configuration:onOpen
 
 The optional `onOpenCredits` closure enables a 0.6-second long press and a VoiceOver Open Credits action. The consuming app owns the destination. Omitting the closure removes both actions.
 
-Apps using device lighting include `NSMotionUsageDescription` in their Info.plist. Together and the example app both provide that purpose string.
+Apps using device lighting include `NSMotionUsageDescription` in their Info.plist. Reduce Motion limits displacement and removes deformation and device lighting. Reduce Transparency removes shader effects and the shadow. Device lighting stops when the view disappears, the scene becomes inactive, or motion is disabled. Haptic generators detach when the view disappears or haptics are disabled.
 
-Reduce Motion limits displacement and removes deformation and device lighting. Reduce Transparency removes shader effects and the shadow. Device lighting stops when the view disappears, the scene becomes inactive, or the corresponding configuration is disabled. Haptic generators detach when the view disappears or haptics are disabled.
+## Credits Sheet
 
-The example app owns its ordered list, navigation, customization forms, and usage-code view. None of those gallery types are exported by the package.
+`CreditsSheet(configuration:)` is Together's native credits sheet. `CreditsSheetConfiguration.together` preserves its default title, two paragraphs, serif title, justified monospaced body, static Metal mark, and red close button.
 
-## Made by Kaizosha
+Configuration exposes `title`, `paragraphs`, `showsLogo`, and `logoSize`. Paragraphs support **bold** and *italic* emphasis. The consuming app presents the component with `.sheet`.
 
-`MadeByKaizosha(configuration:)` is the complete native credits sheet. `CreditsConfiguration.together` preserves Together's title, two paragraphs, serif title, justified monospaced body, static Metal mark, and red close button. Configuration exposes `title`, `paragraphs`, `showsLogo`, and `logoSize`. Paragraphs support **bold** and *italic* emphasis. Present it with `.sheet`.
+## Segmented Control
 
-## Unlock Together
+`SegmentedControl(selection:items:configuration:)` uses Together's payment-sheet `UISegmentedControl`. Each `SegmentedControlItem<ID>` contains a stable `Hashable` ID and a title. The binding and selected item use the same ID type. Items have equal widths. An empty item array produces no visible control.
 
-`UnlockTogetherControl(isUnlocked:configuration:action:)` is the native single-segment action. Its defaults are `Unlock Together`, `Together x You`, and system orange. The callback runs on every activation, including repeated taps, keyboard activation, and VoiceOver activation. The host owns unlock state and purchase behavior.
+`SegmentedControlConfiguration` contains:
 
-## Translation Strategy Pill
+| Value | Default | Behavior |
+| --- | --- | --- |
+| `width` | nil | Uses the proposed width or native intrinsic width. A value sets an explicit width in points. |
+| `height` | 60 | Minimum height in points. Scaled text can increase it. |
+| `fontSize` | 16 | Base size of the semibold font, scaled with Dynamic Type. |
+| `selectionTint` | nil | Uses native selection rendering. A color changes the selected segment tint. |
+| `foregroundColor` | `.primary` | Unselected title color. |
+| `selectedForegroundColor` | `.primary` | Selected title color. |
 
-`TranslationStrategyPill(selection:isHighFidelityAvailable:configuration:onUnavailableHighFidelitySelection:)` combines the glass capsule, information popover, and native Low/High selector. `TranslationStrategyPillConfiguration` exposes `tint`, `isCompact`, `status`, `detail`, and `comparison`. Expanded and compact heights start at 66 and 46 points. Accessibility text sizes use a vertical arrangement. The host supplies availability and explanatory status.
+The gallery's Payment preset shows Annual and Monthly at a 60-point minimum height. Language uses Source and Translate at 210 points wide, 32 points high, and a 13-point base font. Options demonstrates three generic items. All presets use the same public component.
 
-## Language Switcher
+The host owns selection and availability through its binding and `.disabled`. A missing selected ID leaves all segments unselected. A binding that rejects a change restores the host's selection.
 
-`LanguageSwitcher(selection:width:sourceTitle:translationTitle:)` binds `LanguageRole.source` or `.translation`. The native segmented picker defaults to Source and Translate at 210 points wide.
+## Option Pill
 
-## Low/High Switcher
+`OptionPill(selection:items:configuration:)` is a glass selector for any number of caller-supplied options. It contains the options without translation status or an information popover.
 
-`TranslationStrategySwitcher(selection:isEnabled:isHighFidelityAvailable:configuration:onUnavailableHighFidelitySelection:)` binds `TranslationStrategy.lowLatency` or `.highFidelity`. It defaults to 128 by 28 points. Low uses the label color; High uses system orange. Configuration exposes normal and selected foreground colors, both selected tints, width, and height. `.onGlass` supplies Together's foreground colors for placement on the tinted pill.
+Each `OptionPillItem<ID>` contains `id`, `title`, `tint`, `foregroundColor`, and `selectedForegroundColor`. The tint colors that option's selected capsule. Normal text defaults to `.primary`, and selected text defaults to the system background color. Stable, unique IDs identify the options.
 
-Tapping unavailable High leaves the current selection unchanged and invokes the unavailable callback. Availability does not silently change a host-supplied High selection. Disabling the view disables both segments.
+`OptionPillConfiguration` contains:
 
-## Masonry Layout
+| Value | Default | Behavior |
+| --- | --- | --- |
+| `glassTint` | nil | Optional tint for the outer glass capsule. |
+| `width` | nil | Uses available width. A value sets an explicit width in points. |
+| `height` | 46 | Minimum capsule height in points. The minimum accepted height is 44. |
+| `spacing` | 4 | Space between options. |
+
+Options share the available width. Titles stay on one line and truncate at the tail. VoiceOver retains the complete title and reports the selected option. Empty items produce no visible pill. Native buttons inherit `.disabled`, and selection animation respects Reduce Motion.
+
+## Liquid List
+
+`LiquidList(configuration:content:)` places caller-supplied rows in a scrolling vertical stack with soft scroll edges. `LiquidListConfiguration` defaults to 10-point row spacing and 16-point horizontal and vertical insets.
+
+`LiquidListRow(isSelected:isInteractive:configuration:content:)` gives row content its glass and selection appearance. The host wraps the row in a `Button` or `NavigationLink` and owns its action. A row containing a `Toggle` uses `isInteractive: false`, so the toggle owns interaction.
+
+`LiquidListRowConfiguration` contains:
+
+| Value | Default | Behavior |
+| --- | --- | --- |
+| `glassTint` | nil | Optional tint for the regular glass. |
+| `selectionTint` | `.accentColor` | Color of the selected row wash. |
+| `selectionOpacity` | 0.10 | Strength of the selected row wash. |
+| `horizontalPadding` | 18 | Horizontal content padding in points. |
+| `verticalPadding` | 10 | Vertical content padding in points. |
+| `minimumHeight` | 54 | Minimum row height in points. |
+| `shape` | `.adaptive` | Capsule normally, rounded rectangle at accessibility text sizes. Explicit shapes are also available. |
+| `cornerRadius` | 24 | Radius used for rounded rectangles. |
+
+Rows inherit disabled state, remove saturation, and use half opacity when disabled. Disabled rows have no selected wash or interactive glass. The gallery demonstrates selectable settings rows and a contained toggle.
+
+## Masonry Grid
 
 `MasonryGrid` measures children at the available column width and places each in the shortest column. Defaults are 20-point horizontal insets and 16-point row and column gaps. Automatic minimum column width is 148 points, or 260 at accessibility text sizes. Reading direction mirrors physical columns while preserving data order. Explicit `minimumColumnWidth` overrides automatic sizing.
 
-`MasonryLayout` exposes the same geometry as a SwiftUI `Layout` for direct composition. It accepts an explicit `layoutDirection`; the `MasonryGrid` wrapper reads it from the environment. Each child owns its aspect ratio and padding. A six-point child inset reproduces Together's media-card proportions without importing its playback or thumbnail state.
+`MasonryLayout` exposes the same geometry as a SwiftUI `Layout`. It accepts an explicit `layoutDirection`; `MasonryGrid` reads the environment. Each child owns its aspect ratio and padding. A six-point child inset reproduces Together's media-card proportions without playback or thumbnail state.
 
-## Native Glass Button
+## Glass Button
 
-Apply `.kaizoshaGlassButtonStyle(_:)` to a native `Button`, or to a native `Menu`
-using `.menuStyle(.button)`. `NativeGlassButtonConfiguration` contains:
+`.kaizoshaGlassButtonStyle(_:)` styles a native `Button`, or a native `Menu` with `.menuStyle(.button)`. `GlassButtonConfiguration` contains:
 
 | Value | Default | Behavior |
 | --- | --- | --- |
 | `surface` | `.prominent` | Native prominent or regular glass. |
-| `tint` | `.accentColor` | The enabled surface tint. |
-| `borderShape` | `.capsule` | Native border shape; label size and control size stay with the caller. |
+| `tint` | `.accentColor` | The enabled glass tint. |
+| `borderShape` | `.capsule` | Native border shape. Label size and control size stay with the caller. |
 
-Prominent labels use the adaptive system-background foreground inside the native
-label: light in Light appearance and dark in Dark appearance, matching Done.
-Unavailable prominent controls use the native confirmation rendering role and
-app accent, including when an ancestor disables them. They remain truly disabled.
-Re-enabling restores the supplied role and tint. This intentionally normalizes
-the role only while unavailable, including close and destructive roles. Regular
-glass preserves its native foreground and supplied tint without this adaptation.
+Prominent labels use the adaptive system-background foreground inside the native label. Unavailable prominent controls use the native confirmation rendering role and app accent, including when an ancestor disables them. Re-enabling restores the supplied role and tint. Regular glass preserves its native foreground and supplied tint.
 
-Roles, actions, labels, accessibility, `.controlSize`, `.disabled`, and symbol
-effects remain native SwiftUI responsibilities. The component adds no custom
-material, opacity simulation, tap handling, or forced enabled environment.
+Roles, actions, labels, accessibility, `.controlSize`, `.disabled`, and symbol effects remain native SwiftUI responsibilities.
 
 ```swift
 Menu("Actions", systemImage: "ellipsis") {
-    Button("Select All", action: selectAll)
-    Button("Remove", role: .destructive, action: remove)
+	Button("Select All", action: selectAll)
+	Button("Remove", role: .destructive, action: remove)
 }
 .menuStyle(.button)
 .kaizoshaGlassButtonStyle(.init(surface: .regular))
 ```
 
-The gallery provides Primary, Confirm, Help, Reset, Destructive, and Menu presets.
-Its customization sheet changes the native label, role, tint, surface, shape,
-control size, and local or inherited availability. The visible activation count
-proves repeated actions and disabling; Reset restores defaults. The usage screen
-contains the current configuration followed by ready-to-use examples.
+The gallery provides Primary, Confirm, Help, Reset, Destructive, and Menu presets. Its customization sheet changes the label, role, tint, glass, shape, control size, and local or inherited availability. The activation count is in the customization sheet. The component canvas contains only the control.

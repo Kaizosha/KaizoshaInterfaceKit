@@ -1,6 +1,6 @@
-# Deliver KaizoshaInterfaceKit to TestFlight
+# Deliver Kaizōsha’s InterfaceKit to TestFlight
 
-The display name is **KaizoshaInterfaceKit**. The shipping identity remains `org.kaizosha.CustomKit`, company team `564DV375U4`, App Store Connect app `6827106597`. Version `1.0 (4)` is Testing in the existing Kon's Testing group. Increment the generator's build number and regenerate the project before a new upload.
+The current display name is **Kaizōsha’s InterfaceKit**. The shipping identity remains `org.kaizosha.CustomKit`, company team `564DV375U4`, App Store Connect app `6827106597`. The current source prepares version 1.0 build 5. Build 4 is the latest recorded delivery below.
 
 ## Create the archive
 
@@ -8,36 +8,36 @@ The display name is **KaizoshaInterfaceKit**. The shipping identity remains `org
 python3 Scripts/generate-example-project.py
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
 xcodebuild \
-  -project Examples/KaizoshaInterfaceKit/KaizoshaInterfaceKit.xcodeproj \
-  -scheme KaizoshaInterfaceKit \
-  -configuration Release \
-  -destination 'generic/platform=iOS' \
-  -derivedDataPath /tmp/kaizosha-interfacekit-device-build \
-  -archivePath /tmp/KaizoshaInterfaceKit-1.0-4-final.xcarchive \
-  -allowProvisioningUpdates archive
+	-project Examples/KaizoshaInterfaceKit/KaizoshaInterfaceKit.xcodeproj \
+	-scheme KaizoshaInterfaceKit \
+	-configuration Release \
+	-destination 'generic/platform=iOS' \
+	-derivedDataPath /tmp/kaizosha-interfacekit-device-build \
+	-archivePath /tmp/KaizoshaInterfaceKit-1.0-5-final.xcarchive \
+	-allowProvisioningUpdates archive
 ```
 
-Read the archived app's metadata, verify its signature, and confirm that the bundle ID, team, display name, version, icon, and privacy manifest match the source.
+Read the archived app's metadata. Verify its signature, bundle ID, team, display name, version, compiled Icon Composer icon, and privacy manifest.
 
 ## Upload and assign
 
 1. Use the Codex browser's existing authenticated App Store Connect session when available.
-2. Update the app's visible name to KaizoshaInterfaceKit without creating another app record.
-3. Open the verified archive in Xcode Organizer and choose TestFlight Internal Only.
+2. Update the existing app's visible name to Kaizōsha’s InterfaceKit.
+3. Upload the verified archive with TestFlight Internal Only distribution.
 4. Wait for upload confirmation and processing.
 5. Add the exact version and build to the existing Kon's Testing internal group.
 6. Verify that the group reports the build as Testing.
 
-The [TestFlight record](https://appstoreconnect.apple.com/apps/6827106597/testflight) uses the existing app ID. Do not claim upload, group availability, or physical installation from a local archive alone.
+The [TestFlight record](https://appstoreconnect.apple.com/apps/6827106597/testflight) uses the existing app ID. Record upload and group availability only after App Store Connect confirms them.
 
-## Current build 4 state
+## Historical build 4 delivery receipt
 
-The renamed example app includes the Native Glass Button presets, customization,
-and generated usage code. Its signed archive and distribution retain the original
+Build 4 used the previous eight-item catalog and public API. Its example app
+included the Native Glass Button presets, customization, and generated usage code. Its signed archive and distribution retain the original
 app identity, iPhone/iPad device families, and iOS 26 minimum. Command-line export
 and upload succeeded using the existing Xcode account and internal-only options.
-App Store Connect processing is complete and Kon's Testing reports **Testing**.
-The visible App Store Connect name is also KaizoshaInterfaceKit.
+App Store Connect processing completed and Kon's Testing reported **Testing**.
+The visible App Store Connect name at delivery was KaizoshaInterfaceKit.
 
 - Package release: `0.3.0`, source `033ed669c177809f92e7bf0de3c4034bed006ae6`.
 - Archive: `/tmp/KaizoshaInterfaceKit42/KaizoshaInterfaceKit-1.0-4.xcarchive`.
@@ -50,7 +50,7 @@ The visible App Store Connect name is also KaizoshaInterfaceKit.
 This is private TestFlight delivery, not public App Store submission or proof of
 physical installation. Physical iPad validation remains deferred.
 
-## Build 3 delivery receipt
+## Historical build 3 delivery receipt
 
 Version 1.0 build 3, named KaizoshaUIKit, uploaded successfully on October 27, 2026, finished processing, and is assigned to the existing Kon's Testing internal group. App Store Connect reports **Testing** for build 3. The existing app identity and internal-only distribution are preserved.
 

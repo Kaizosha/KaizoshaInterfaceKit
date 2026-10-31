@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension NativeGlassButtonExample {
+extension GlassButtonExample {
     static func code(for settings: GlassButtonSettings, in environment: EnvironmentValues) -> String {
         let title = swiftLiteral(settings.title)
         let symbol = swiftLiteral(settings.symbol)

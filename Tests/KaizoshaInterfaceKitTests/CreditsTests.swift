@@ -7,7 +7,7 @@ import UIKit
 struct CreditsTests {
     @Test("Credits default to Together's original wording and artwork size")
     func togetherDefaults() {
-        let configuration = CreditsConfiguration.together
+        let configuration = CreditsSheetConfiguration.together
 
         #expect(configuration.title == "Made by Kaizōsha.")
         #expect(configuration.paragraphs == [
@@ -16,13 +16,13 @@ struct CreditsTests {
         ])
         #expect(configuration.showsLogo)
         #expect(configuration.logoSize == 160)
-        #expect(CreditsConfiguration().paragraphs == configuration.paragraphs)
-        _ = MadeByKaizosha()
+        #expect(CreditsSheetConfiguration().paragraphs == configuration.paragraphs)
+        _ = CreditsSheet()
     }
 
     @Test("Apps can customize the credits without changing their supplied copy")
     func customConfiguration() {
-        var configuration = CreditsConfiguration(
+        var configuration = CreditsSheetConfiguration(
             title: "Made for our team.",
             paragraphs: ["Built by **Kaizōsha**.", "Available *on your device*."],
             showsLogo: false,
@@ -41,12 +41,12 @@ struct CreditsTests {
         ])
         #expect(configuration.showsLogo)
         #expect(configuration.logoSize == 120)
-        _ = MadeByKaizosha(configuration: configuration)
+        _ = CreditsSheet(configuration: configuration)
     }
 
     @Test("Inline emphasis retains readable text and monospaced font traits")
     func inlineEmphasis() throws {
-        let result = JustifiedCreditText.attributedText(
+        let result = JustifiedCreditsText.attributedText(
             for: "Plain **bold** and *italic* with **bold *both***."
         )
 
@@ -73,7 +73,7 @@ struct CreditsTests {
 
     @Test("Credits justify their paragraphs and use the adaptive secondary label color")
     func nativeTextAppearance() throws {
-        let result = JustifiedCreditText.attributedText(for: "A native paragraph.")
+        let result = JustifiedCreditsText.attributedText(for: "A native paragraph.")
         let style = try #require(
             result.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle
         )
@@ -94,11 +94,11 @@ struct CreditsTests {
 
     @Test("Credits body text follows the requested Dynamic Type size")
     func dynamicType() throws {
-        let standard = JustifiedCreditText.attributedText(
+        let standard = JustifiedCreditsText.attributedText(
             for: "Readable",
             compatibleWith: UITraitCollection(preferredContentSizeCategory: .large)
         )
-        let accessible = JustifiedCreditText.attributedText(
+        let accessible = JustifiedCreditsText.attributedText(
             for: "Readable",
             compatibleWith: UITraitCollection(
                 preferredContentSizeCategory: .accessibilityExtraExtraExtraLarge

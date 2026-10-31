@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-struct JustifiedCreditText: UIViewRepresentable {
+struct JustifiedCreditsText: UIViewRepresentable {
     let markdown: String
 
     func makeUIView(context: Context) -> UITextView {

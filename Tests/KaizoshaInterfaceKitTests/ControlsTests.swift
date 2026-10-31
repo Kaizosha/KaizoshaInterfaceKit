@@ -28,8 +28,8 @@ struct ControlsTests {
         #expect(paragraph.lineBreakMode == .byTruncatingTail)
     }
 
-    @Test("Native selection events update arbitrary typed IDs")
-    func selectionUpdatesHost() {
+    @Test("The registered coordinator callback updates arbitrary typed IDs")
+    func coordinatorUpdatesHost() {
         var selection = Plan.monthly
         let picker = NativeSegmentedControl(
             selection: .init(get: { selection }, set: { selection = $0 }),
@@ -38,12 +38,14 @@ struct ControlsTests {
         )
         let coordinator = picker.makeCoordinator()
         let control = picker.makeControl(coordinator: coordinator)
+        let action = NSStringFromSelector(#selector(NativeSegmentedControl<Plan>.Coordinator.selectionChanged(_:)))
+        #expect(control.actions(forTarget: coordinator, forControlEvent: .valueChanged)?.contains(action) == true)
         control.selectedSegmentIndex = 2
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == .lifetime)
         #expect(control.accessibilityValue == "Lifetime")
         control.selectedSegmentIndex = 0
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == .monthly)
         #expect(control.accessibilityValue == "Monthly")
     }
@@ -68,7 +70,7 @@ struct ControlsTests {
         #expect(control.selectedSegmentIndex == 2)
         #expect(control.accessibilityValue == "Every year")
         control.selectedSegmentIndex = 0
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == .lifetime)
         #expect(control.accessibilityValue == "Forever")
     }
@@ -83,12 +85,12 @@ struct ControlsTests {
         let coordinator = picker.makeCoordinator()
         let control = picker.makeControl(coordinator: coordinator)
         control.selectedSegmentIndex = 2
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(control.selectedSegmentIndex == 0)
         #expect(control.accessibilityValue == "Monthly")
     }
 
-    @Test("Disabled and invalid native events leave the host unchanged")
+    @Test("Disabled and invalid coordinator callbacks leave the host unchanged")
     func disabledSelection() {
         var selection = Plan.annual
         let picker = NativeSegmentedControl(
@@ -100,12 +102,12 @@ struct ControlsTests {
         let control = picker.makeControl(coordinator: coordinator)
         control.isEnabled = false
         control.selectedSegmentIndex = 2
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == .annual)
         #expect(control.selectedSegmentIndex == 1)
         control.isEnabled = true
         control.selectedSegmentIndex = UISegmentedControl.noSegment
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == .annual)
         #expect(control.selectedSegmentIndex == 1)
     }
@@ -121,7 +123,7 @@ struct ControlsTests {
         let coordinator = picker.makeCoordinator()
         let control = picker.makeControl(coordinator: coordinator)
         control.selectedSegmentIndex = 1
-        control.sendActions(for: .valueChanged)
+        coordinator.selectionChanged(control)
         #expect(selection == 20)
     }
 

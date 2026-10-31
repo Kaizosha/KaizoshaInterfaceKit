@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct CreditsConfiguration {
+public struct CreditsSheetConfiguration {
     public var title: String
     public var paragraphs: [String]
     public var showsLogo: Bool

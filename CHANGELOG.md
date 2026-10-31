@@ -1,5 +1,15 @@
 # Changelog
 
+## Package 0.4.0
+
+- Set the app display name to Kaizōsha’s InterfaceKit and the main folder to KaizoshaInterfaceKit.
+- Consolidated payment, language, and generic segmented examples into `SegmentedControl`, based on Together's Annual/Monthly payment picker.
+- Replaced translation-specific selectors with `OptionPill`, including multiple options, editable colors, and one-line title truncation.
+- Restored reusable `LiquidList` and `LiquidListRow` components.
+- Renamed public configuration types to match Kaizosha Logo, Credits Sheet, and Glass Button.
+- Reduced the catalog to seven component families with an element and customization button on each page.
+- Added a layered app-icon document created in Icon Composer.
+
 ## Package 0.3.0
 
 - Renamed the public product and module to KaizoshaInterfaceKit.

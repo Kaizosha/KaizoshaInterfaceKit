@@ -1,28 +1,41 @@
-# Verify KaizoshaInterfaceKit
+# Verify Kaizōsha’s InterfaceKit
 
-Run `Scripts/verify.sh SIMULATOR_ID` with Xcode 27 selected. The package suite covers the public import, logo motion and drag policies, haptic travel, native control actions and availability, justified credits, and masonry geometry. The gallery suite checks the ordered eight-item list, all customization sheets and usage code, customized credits, native selection, unavailable High, repeated Unlock activation, pill guidance and compact state, masonry proportions, and logo drag return. Native Glass Button checks cover repeated activation, local and inherited disabling, regular and prominent menus, presets, reset, and copyable current customization.
+Run `Scripts/verify.sh SIMULATOR_ID` with Xcode 27 selected. The script regenerates the example project, runs package tests, and runs gallery UI tests on the supplied iOS 26 or later simulator. Each run creates a separate evidence directory under `/tmp/kaizosha-interfacekit-verify.*`.
 
-UI tests retain screenshots in their result bundle. Use `xcrun xcresulttool export attachments --path RESULT.xcresult --output-path DIRECTORY` to export them.
+The current package checks cover public imports, logo motion and drag policies, haptic travel, native segmented selection, credits text, liquid-list geometry, and masonry geometry. Gallery checks cover the seven-item catalog, individual customization sheets, selection, reset, and usage code.
 
-## Native glass extraction
+The cleanup changes public type names and replaces the former app-specific selectors. Earlier test results below describe those earlier revisions. Validate the current source before assigning a new TestFlight build.
 
-The renamed iOS 26 package passes 30 tests. The complete iPhone simulator gallery
-passes 13 checks, including the eight-item catalog and generated customization
-code. The five button checks also pass on an iPad simulator in Dark appearance
-at accessibility XXXL. Two physical iPhone checks prove repeated activation,
-local and inherited disabling, and a working prominent menu.
+UI tests retain screenshots in their result bundle. Export them with:
+
+```sh
+xcrun xcresulttool export attachments \
+	--path RESULT.xcresult \
+	--output-path DIRECTORY
+```
+
+Inspect the component screens and customization sheets in Light and Dark appearances. Check the segmented-control presets, more than two pill options, long labels, liquid-list selection and contained toggles, and accessibility text sizes. Confirm the archived app contains the Icon Composer asset output.
+
+## Historical build 4 evidence
+
+Build 4 used the previous eight-item catalog and public API. Its iOS 26 package
+passed 30 tests. The complete iPhone simulator gallery passed 13 checks,
+including generated customization code. Five button checks also passed on an
+iPad simulator in Dark appearance at accessibility XXXL. Two physical iPhone
+checks proved repeated activation, local and inherited disabling, and a working
+prominent menu.
 
 The first physical menu run was interrupted by a system notification banner;
 that failed bundle is retained. Both unchanged checks pass on repeat. Xcode's
 post-run simulator diagnostic collector reports that its separate `xcrun`
 lookup cannot find `simctl`; the test command still exits zero and reports
 `TEST EXECUTE SUCCEEDED`. This does not establish a clean diagnostic collection.
-Physical iPad validation remains deferred. Current evidence is under
+Physical iPad validation was deferred. Build 4 evidence is under
 `/tmp/KaizoshaInterfaceKit42`.
 
-## Build 3 evidence
+## Historical build 3 evidence
 
-These receipts describe the prior KaizoshaUIKit release. Verify the renamed package and build 4 separately.
+These receipts describe the earlier KaizoshaUIKit release and its former components. They do not verify the current API.
 
 - Public consumer smoke tests use ordinary `import KaizoshaUIKit` and construct every exported component. Package suite: 28 tests passed in `/tmp/kaizosha-uikit-package-final.xcresult`.
 - Complete iPhone gallery suite: eight tests passed in `/tmp/kaizosha-uikit-gallery-verified.xcresult`. The recorded drag visibly moves the logo, then returns it to its anchor. Recording: `/tmp/kaizosha-uikit-interactions.mp4`.
